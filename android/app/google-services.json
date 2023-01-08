@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "565240735813",
+    "project_id": "fir-sample-30ca3",
+    "storage_bucket": "fir-sample-30ca3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:565240735813:android:c22a25a97501df917b9b2c",
+        "android_client_info": {
+          "package_name": "com.shakhob.firebasesample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "565240735813-i1dhqk2elrhiu60lrcsdprfiru17ubrg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMy8aW0Am23ECU7YxKah6sv9cy3IlnLoc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "565240735813-i1dhqk2elrhiu60lrcsdprfiru17ubrg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
