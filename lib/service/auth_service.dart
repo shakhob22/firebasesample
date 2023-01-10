@@ -7,9 +7,8 @@ class AuthService {
 
   static Future<User?> signInUser(String email, String password) async {
     try {
-      _auth.signInWithEmailAndPassword(email: email, password: password);
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
       User? user = _auth.currentUser;
-      print(user?.uid);
       return user;
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
@@ -27,9 +26,8 @@ class AuthService {
 
   static Future<User?> signUpUser(String email, String password) async {
     try {
-      _auth.createUserWithEmailAndPassword(email: email, password: password);
+      await _auth.createUserWithEmailAndPassword(email: email, password: password);
       User? user = _auth.currentUser;
-      print(user?.uid);
       return user;
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
@@ -47,6 +45,16 @@ class AuthService {
 
   static Future<void> signOutUser() async {
     await _auth.signOut();
+  }
+
+  static bool isLoggedIn() {
+    final User? firebaseUser = _auth.currentUser;
+    return firebaseUser != null;
+  }
+
+  static String currentUserId() {
+    final User? firebaseUser = _auth.currentUser;
+    return firebaseUser!.uid;
   }
 
 }

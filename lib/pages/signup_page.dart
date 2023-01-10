@@ -18,7 +18,9 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController cPasswordController = TextEditingController();
 
-  void doSignUp() {
+  bool isLoading = false;
+
+  void doSignUp() async {
     String name = nameController.text;
     String email = emailController.text;
     String password = passwordController.text;
@@ -28,10 +30,18 @@ class _SignUpPageState extends State<SignUpPage> {
 
     if (password != cPassword) return;
 
-    AuthService.signUpUser(email, password).then((value) => {
+    setState((){
+      isLoading = true;
+    });
+
+    await AuthService.signUpUser(email, password).then((value) => {
       if (value != null) {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage())),
       }
+    });
+
+    setState(() {
+      isLoading = false;
     });
   }
 
@@ -40,53 +50,59 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: Stack(
           children: [
-            TextField(
-              controller: nameController,
-              decoration: const InputDecoration(
-                hintText: "Name",
-                hintStyle: TextStyle(color: Colors.grey),
-              ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                TextField(
+                  controller: nameController,
+                  decoration: const InputDecoration(
+                    hintText: "Name",
+                    hintStyle: TextStyle(color: Colors.grey),
+                  ),
+                ),
+                const SizedBox(height: 20,),
+                TextField(
+                  controller: emailController,
+                  decoration: const InputDecoration(
+                    hintText: "email",
+                    hintStyle: TextStyle(color: Colors.grey),
+                  ),
+                ),
+                const SizedBox(height: 20,),
+                TextField(
+                  controller: passwordController,
+                  decoration: const InputDecoration(
+                    hintText: "password",
+                    hintStyle: TextStyle(color: Colors.grey),
+                  ),
+                ),
+                const SizedBox(height: 20,),
+                TextField(
+                  controller: cPasswordController,
+                  decoration: const InputDecoration(
+                    hintText: "Confirm password",
+                    hintStyle: TextStyle(color: Colors.grey),
+                  ),
+                ),
+                const SizedBox(height: 20,),
+                ElevatedButton(
+                  onPressed: doSignUp,
+                  child: const Text("Sign Up"),
+                ),
+                const SizedBox(height: 20,),
+                TextButton(
+                  onPressed: (){
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SignInPage()));
+                  },
+                  child: const Text("Sign In"),
+                ),
+              ],
             ),
-            const SizedBox(height: 20,),
-            TextField(
-              controller: emailController,
-              decoration: const InputDecoration(
-                hintText: "email",
-                hintStyle: TextStyle(color: Colors.grey),
-              ),
-            ),
-            const SizedBox(height: 20,),
-            TextField(
-              controller: passwordController,
-              decoration: const InputDecoration(
-                hintText: "password",
-                hintStyle: TextStyle(color: Colors.grey),
-              ),
-            ),
-            const SizedBox(height: 20,),
-            TextField(
-              controller: cPasswordController,
-              decoration: const InputDecoration(
-                hintText: "Confirm password",
-                hintStyle: TextStyle(color: Colors.grey),
-              ),
-            ),
-            const SizedBox(height: 20,),
-            ElevatedButton(
-              onPressed: doSignUp,
-              child: const Text("Sign Up"),
-            ),
-            const SizedBox(height: 20,),
-            TextButton(
-              onPressed: (){
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const SignInPage()));
-              },
-              child: const Text("Sign In"),
-            ),
+            (isLoading) ?
+            const Center(child: CircularProgressIndicator()) : const SizedBox(),
           ],
         ),
       ),
