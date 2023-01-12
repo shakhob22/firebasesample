@@ -74,22 +74,34 @@ class _HomePageState extends State<HomePage> {
           BoxShadow(color: Colors.grey, blurRadius: 5)
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      child: Row(
         children: [
-          Container(
-            padding: const EdgeInsets.all(5),
-            child: Text(post.title!, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+          Image(
+            height: 80,
+            width: 80,
+            image: NetworkImage(post.imgUrl!),
+            fit: BoxFit.cover,
           ),
-          Container(
-            padding: const EdgeInsets.all(5),
-            child: Text(post.content!),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  child: Text(post.title!, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  child: Text(post.content!),
+                ),
+                Container(
+                  alignment: Alignment.bottomRight,
+                  padding: const EdgeInsets.all(5),
+                  child: Text(post.date!, style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 12),),
+                )
+              ],
+            ),
           ),
-          Container(
-            alignment: Alignment.bottomRight,
-            padding: const EdgeInsets.all(5),
-            child: Text(post.date!, style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 12),),
-          )
         ],
       ),
     );

@@ -1,7 +1,11 @@
 
+import 'dart:io';
+
 import 'package:firebasesample/model/post_model.dart';
 import 'package:firebasesample/service/rtdb_service.dart';
+import 'package:firebasesample/service/store_service.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../service/auth_service.dart';
 
@@ -25,9 +29,28 @@ class _CreatePageState extends State<CreatePage> {
 
     if (title.isEmpty || content.isEmpty) return;
 
-    Post post = Post(userId, title, content, date);
+    String? downloadUrl = await StoreService.uploadImage(_image!);
+
+    Post post = Post(userId, title, content, date, downloadUrl);
     RTDBService.addPost(post).then((value) => {
       Navigator.pop(context),
+    });
+  }
+
+  Future<void> uploadImage() async {
+  }
+
+  File? _image;
+  final picker = ImagePicker();
+  void _getImage() async {
+    final pickerFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickerFile != null) {
+        _image = File(pickerFile.path);
+      } else {
+        print("No image");
+      }
     });
   }
 
@@ -41,6 +64,22 @@ class _CreatePageState extends State<CreatePage> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
+            GestureDetector(
+              onTap: (){
+                _getImage();
+              },
+              child: SizedBox(
+                height: 200,
+                width: 200,
+                child: (_image == null) ?
+                const Image(
+                  image: AssetImage("assets/images/ic_default.png"),
+                ) :
+                Image(
+                  image: FileImage(_image!),
+                ),
+              ),
+            ),
             TextField(
               controller: titleController,
               decoration: const InputDecoration(
