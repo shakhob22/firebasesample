@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "565240735813",
+    "firebase_url": "https://fir-sample-30ca3-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "fir-sample-30ca3",
     "storage_bucket": "fir-sample-30ca3.appspot.com"
   },
